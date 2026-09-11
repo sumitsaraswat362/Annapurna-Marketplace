@@ -285,8 +285,11 @@ Order History + Bid Patterns + Completion Rate → Score (0-100) → Level Assig
 
 | Name | Role |
 |------|------|
-| **Sumit Saraswat** | Full-Stack Developer & Project Lead |
-| **Tanay Agrawal** | Feature Design & Requirements |
+| **Sumit Saraswat** | Full-Stack Developer & Team Lead |
+| **Vansh Thakur** | Backend Architecture & Cloud Infrastructure |
+| **Ayushi Katara** | UI/UX Design & Frontend Engineering |
+| **Tanmay Kaushal** | AI Integration & Machine Learning |
+| **Suraj Singh** | Database Architecture & Security |
 
 ---
 
