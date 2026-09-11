@@ -199,12 +199,6 @@ export default function BuyerMarketplace() {
             </h3>
             <p className="text-sm text-[var(--text-secondary)] mt-1">Get the freshest produce while ensuring farmers get their fair share.</p>
           </div>
-          <div className="relative z-10 hidden md:flex h-full items-center justify-center pl-4 border-l border-[var(--separator)]">
-            <div className="text-center">
-              <p className="text-xs font-bold text-[var(--text-tertiary)] uppercase">Platform Fee</p>
-              <p className="text-2xl font-extrabold text-[#34C759]">₹0 Free</p>
-            </div>
-          </div>
         </div>
 
         {/* Search & Smart Filter */}
@@ -603,8 +597,11 @@ function CheckoutModal({ onClose, cart, user, dispatch }: { onClose: () => void,
   const [paymentMethod, setPaymentMethod] = useState("upi");
 
   const subtotal = cart.reduce((acc, item) => acc + item.subtotal, 0);
-  const platformFee = 0;
-  const deliveryFee = 50;
+  const totalKg = cart.reduce((acc, item) => acc + item.quantityKg, 0);
+  
+  // Calculate delivery fee: ₹40 base + (₹1.5 per kg) + (₹2 per km for a mock 15km distance)
+  const mockDistanceKm = 15;
+  const deliveryFee = Math.round(40 + (totalKg * 1.5) + (mockDistanceKm * 2));
   const total = subtotal + deliveryFee;
 
   const address = user?.address || user?.location || "123 Smart Farm Road, Pune, Maharashtra";
@@ -711,11 +708,9 @@ function CheckoutModal({ onClose, cart, user, dispatch }: { onClose: () => void,
                 <span className="text-[var(--text-primary)] font-medium">₹{subtotal}</span>
               </div>
               <div className="flex justify-between items-center text-sm">
-                <span className="text-[var(--text-secondary)]">Platform Fee</span>
-                <span className="text-[#34C759] font-bold">FREE ✓</span>
-              </div>
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-[var(--text-secondary)]">Delivery Fee</span>
+                <span className="text-[var(--text-secondary)]">
+                  Delivery Fee <span className="text-[10px] text-[var(--text-tertiary)] ml-1">({totalKg}kg, {mockDistanceKm}km)</span>
+                </span>
                 <span className="text-[var(--text-primary)] font-medium">₹{deliveryFee}</span>
               </div>
             </div>
