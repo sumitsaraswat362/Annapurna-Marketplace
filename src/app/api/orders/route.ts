@@ -63,12 +63,33 @@ export async function POST(req: Request) {
     const farmerPayout = totalAmount;
     const middlemanSavings = totalAmount * 0.40; // Estimated 40% savings vs traditional supply chain
 
+    // --- 3rd Party Logistics (3PL) Simulator ---
+    // In a real production app, you would fetch(PORTER_API) here.
+    // For this demo, we generate realistic dynamic dispatch data immediately upon order placement.
+    const partners = ["Delhivery Agri", "Porter", "Kisan Rath", "Shadowfax"];
+    const drivers = ["Ramesh Kumar", "Suresh Singh", "Abdul Khan", "Rajesh Patil", "Prakash Yadav"];
+    const vehicles = ["MH-12-FE-8921", "MH-14-GH-1234", "GJ-05-AB-5678", "KA-01-CD-9012", "DL-11-CA-1123"];
+    
+    // Create an ETA between 2 and 6 hours from now
+    const etaDate = new Date();
+    etaDate.setHours(etaDate.getHours() + Math.floor(Math.random() * 4) + 2);
+    
+    const logisticsDetails = {
+      trackingId: `TRK-${Math.random().toString(36).substr(2, 8).toUpperCase()}`,
+      partner: partners[Math.floor(Math.random() * partners.length)],
+      driverName: drivers[Math.floor(Math.random() * drivers.length)],
+      driverPhone: `+91 9${Math.floor(Math.random() * 900000000 + 100000000)}`,
+      vehicleNumber: vehicles[Math.floor(Math.random() * vehicles.length)],
+      eta: etaDate.toLocaleString('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true }) + " Today"
+    };
+
     const newOrder = {
       ...body,
       totalAmount,
       platformFee,
       farmerPayout,
       middlemanSavings,
+      logisticsDetails,
       createdAt: Date.now(),
       status: 'pending',
       paymentStatus: 'pending',

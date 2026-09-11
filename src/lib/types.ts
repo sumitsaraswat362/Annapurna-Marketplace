@@ -286,6 +286,16 @@ export interface Order {
   mandiPriceComparison: number;  // How much more/less vs mandi (%)
   middlemanSavings: number;      // ₹ saved vs traditional supply chain
 
+  // Logistics
+  logisticsDetails?: {
+    trackingId: string;
+    driverName: string;
+    driverPhone: string;
+    vehicleNumber: string;
+    eta: string;
+    partner: string;
+  };
+
   // Delivery
   deliveryMode: DeliveryMode;
   deliveryAddress: string;

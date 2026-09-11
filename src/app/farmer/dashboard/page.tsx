@@ -695,6 +695,35 @@ function OrdersSection({ orders, dispatch }: { orders: Order[]; dispatch: React.
                   <p className="font-bold text-[var(--tint-green)] text-lg">₹{order.farmerPayout}</p>
                 </div>
               </div>
+
+              {/* FARMER LOGISTICS VIEW */}
+              {order.logisticsDetails && order.status !== 'cancelled' && (
+                <div className="mt-5 border border-[var(--separator)] rounded-xl overflow-hidden bg-black/5 dark:bg-white/5">
+                  <div className="px-3 py-2 border-b border-[var(--separator)] flex items-center justify-between">
+                    <div className="flex items-center gap-1.5">
+                      <Truck className="w-4 h-4 text-[#007AFF]" />
+                      <span className="font-semibold text-xs text-[var(--text-primary)]">Logistics Pickup</span>
+                    </div>
+                    <span className="text-[10px] font-bold text-[#007AFF] bg-[#007AFF]/10 px-2 py-0.5 rounded">
+                      {order.logisticsDetails.partner}
+                    </span>
+                  </div>
+                  <div className="px-3 py-2.5 flex justify-between items-center text-xs">
+                    <div>
+                      <p className="text-[var(--text-tertiary)]">Vehicle</p>
+                      <p className="font-medium text-[var(--text-primary)]">{order.logisticsDetails.vehicleNumber}</p>
+                    </div>
+                    <div>
+                      <p className="text-[var(--text-tertiary)]">Driver</p>
+                      <p className="font-medium text-[var(--text-primary)]">{order.logisticsDetails.driverName}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-[var(--text-tertiary)]">Arriving</p>
+                      <p className="font-bold text-[#34C759]">{order.logisticsDetails.eta}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {order.status === 'pending' && (

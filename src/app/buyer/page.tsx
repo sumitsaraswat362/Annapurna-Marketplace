@@ -1089,6 +1089,43 @@ function BuyerOrdersView({ orders, user }: { orders: Order[]; user: any }) {
                 </div>
               )}
 
+              {/* LIVE LOGISTICS TRACKING CARD */}
+              {order.logisticsDetails && order.status !== 'cancelled' && (
+                <div className="mt-6 border border-[var(--separator)] rounded-2xl overflow-hidden bg-gradient-to-br from-[var(--fill-secondary)] to-[var(--bg-primary)]">
+                  <div className="p-4 border-b border-[var(--separator)] flex items-center justify-between bg-black/5 dark:bg-white/5">
+                    <div className="flex items-center gap-2">
+                      <Truck className="w-5 h-5 text-[#007AFF]" />
+                      <span className="font-bold text-sm text-[var(--text-primary)]">Platform Logistics Managed</span>
+                    </div>
+                    <span className="text-xs font-bold text-[#007AFF] bg-[#007AFF]/10 px-2.5 py-1 rounded-md">
+                      {order.logisticsDetails.partner}
+                    </span>
+                  </div>
+                  <div className="p-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div>
+                      <p className="text-[10px] text-[var(--text-tertiary)] uppercase tracking-wider font-bold mb-1">Driver</p>
+                      <p className="text-sm font-semibold text-[var(--text-primary)]">{order.logisticsDetails.driverName}</p>
+                      <p className="text-xs text-[var(--text-secondary)]">{order.logisticsDetails.driverPhone}</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-[var(--text-tertiary)] uppercase tracking-wider font-bold mb-1">Vehicle</p>
+                      <p className="text-sm font-semibold text-[var(--text-primary)]">{order.logisticsDetails.vehicleNumber}</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-[var(--text-tertiary)] uppercase tracking-wider font-bold mb-1">Tracking ID</p>
+                      <p className="text-sm font-mono font-semibold text-[var(--text-primary)]">{order.logisticsDetails.trackingId}</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-[var(--text-tertiary)] uppercase tracking-wider font-bold mb-1">Live ETA</p>
+                      <div className="flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-[#34C759] animate-pulse"></span>
+                        <p className="text-sm font-bold text-[#34C759]">{order.logisticsDetails.eta}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {order.deliveryAddress && (
                 <div className="mt-4 pt-4 border-t border-[var(--separator)] flex items-start gap-2 text-sm text-[var(--text-secondary)]">
                   <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
