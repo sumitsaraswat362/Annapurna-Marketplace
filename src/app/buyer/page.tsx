@@ -788,6 +788,8 @@ function NegotiationModal({ listing, qty, onClose, onAddToCart }: { listing: Pro
   const [isNegotiating, setIsNegotiating] = useState(false);
   const [agreedPrice, setAgreedPrice] = useState<number | null>(null);
 
+  const sessionId = useMemo(() => "session-" + Math.random().toString(36).substr(2, 9), []);
+
   const handleOffer = async () => {
     // Extract the first sequence of numbers from the text (useful for voice input)
     const match = offerPrice.match(/\d+/);
@@ -818,6 +820,7 @@ function NegotiationModal({ listing, qty, onClose, onAddToCart }: { listing: Pro
           mandiPricePerKg: listing.currentMandiPrice,
           mspPerKg: listing.minimumSupportPrice || 0,
           buyerOfferPerKg: numOffer,
+          buyerId: sessionId,
           buyerName: "Buyer",
           roundNumber: buyerRounds,
           qualityGrade: listing.qualityGrade,
@@ -835,7 +838,12 @@ function NegotiationModal({ listing, qty, onClose, onAddToCart }: { listing: Pro
         aiPrice = data.counterPrice || numOffer;
         aiMessage = data.reasoning || "Offer processed.";
       } else {
-        aiMessage = "Negotiation service unavailable. Please try again.";
+        try {
+          const errData = await res.json();
+          aiMessage = errData.error || "Negotiation service unavailable. Please try again.";
+        } catch {
+          aiMessage = "Negotiation service unavailable. Please try again.";
+        }
       }
 
       setRounds([...newRounds, { role: "ai", message: aiMessage, price: action !== "reject" ? aiPrice : undefined }]);

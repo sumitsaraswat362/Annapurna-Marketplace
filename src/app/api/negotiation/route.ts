@@ -6,8 +6,8 @@ export const runtime = 'nodejs';
 export const maxDuration = 30;
 
 const firestore = new Firestore({ projectId: 'project-a9c284f8-6bca-440a-a0c' });
-const MAX_BIDS_PER_LISTING = 5;
-const MAX_BIDS_PER_HOUR = 20;
+const MAX_BIDS_PER_LISTING = 50; // Increased for hackathon demo
+const MAX_BIDS_PER_HOUR = 200; // Increased for hackathon demo
 
 export async function POST(req: Request) {
   try {
