@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { MessageSquare, X, Send, Loader2, Sparkles } from "lucide-react";
+import { MessageSquare, X, Send, Loader2, Sparkles, Mic } from "lucide-react";
+import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 
 const QUICK_PROMPTS = [
   "📊 Today's mandi prices",
@@ -11,6 +12,7 @@ const QUICK_PROMPTS = [
 ];
 
 export default function AIHelpBot() {
+  const { isListening, startListening, supported } = useSpeechRecognition();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([
     { role: "assistant", content: "Hi! I'm your Annapurna Assistant 🌾\nAsk me about mandi prices, listing produce, or tracking orders!" },
@@ -126,17 +128,28 @@ export default function AIHelpBot() {
 
           {/* Input */}
           <form onSubmit={handleSend} className="p-3 border-t border-[var(--separator)] bg-[var(--fill-secondary)] flex gap-2 items-center">
+            {supported && (
+              <button
+                type="button"
+                onClick={() => {
+                  startListening((text) => setInput((prev) => prev ? `${prev} ${text}` : text));
+                }}
+                className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors shrink-0 ${isListening ? 'bg-red-500 text-white animate-pulse' : 'bg-[var(--fill-tertiary)] text-[var(--text-secondary)] hover:text-black dark:hover:text-white'}`}
+              >
+                <Mic size={18} />
+              </button>
+            )}
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask anything..."
-              className="flex-1 bg-[var(--bg-primary)] border border-[var(--separator)] rounded-full px-4 py-2.5 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] outline-none focus:ring-2 focus:ring-[#34C759]/50 transition-all"
+              placeholder={isListening ? "Listening..." : "Ask anything..."}
+              className="flex-1 bg-[var(--bg-primary)] border border-[var(--separator)] rounded-full px-4 py-2.5 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] outline-none focus:ring-2 focus:ring-[#34C759]/50 transition-all min-w-0"
             />
             <button
               type="submit"
               disabled={!input.trim() || isLoading}
-              className="w-10 h-10 rounded-full bg-[#34C759] text-white flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#2DB84E] transition-colors shadow-md"
+              className="w-10 h-10 rounded-full bg-[#34C759] text-white flex items-center justify-center shrink-0 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#2DB84E] transition-colors shadow-md"
             >
               <Send size={16} />
             </button>

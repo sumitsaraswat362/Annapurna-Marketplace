@@ -29,6 +29,8 @@ export const metadata: Metadata = {
 import { AuthProvider } from "@/lib/auth";
 import ThemeToggle from "@/components/ThemeToggle";
 
+import GoogleTranslate from "@/components/GoogleTranslate";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -58,6 +60,7 @@ export default function RootLayout({
           <AppProvider>
             {children}
             <AIHelpBot />
+            <GoogleTranslate />
             <ThemeToggle />
           </AppProvider>
         </AuthProvider>

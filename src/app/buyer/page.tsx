@@ -9,8 +9,9 @@ import {
   Search, MapPin, Leaf, Clock, ShoppingCart, 
   TrendingDown, CheckCircle2, ChevronDown, Filter, 
   Sparkles, Plus, Minus, Handshake, CreditCard,
-  MessageSquare, X, ArrowRight, LogOut, ClipboardList, Package, Truck
+  MessageSquare, X, ArrowRight, LogOut, ClipboardList, Package, Truck, Mic
 } from "lucide-react";
+import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 
 const CATEGORIES = ["All", "Vegetables", "Fruits", "Grains", "Pulses", "Spices", "Dairy", "Organic"];
 
@@ -779,6 +780,7 @@ function CheckoutModal({ onClose, cart, user, dispatch }: { onClose: () => void,
 type NegotiationRoundMsg = { role: "buyer" | "ai" | "system", message: string, price?: number };
 
 function NegotiationModal({ listing, qty, onClose, onAddToCart }: { listing: ProduceListing, qty: number, onClose: () => void, onAddToCart: (item: CartItem) => void }) {
+  const { isListening, startListening, supported } = useSpeechRecognition();
   const [offerPrice, setOfferPrice] = useState<string>("");
   const [rounds, setRounds] = useState<NegotiationRoundMsg[]>([
     { role: "system", message: `Farmer's asking price is ₹${listing.askingPricePerKg}/kg. Minimum acceptable price (MSP/Mandi derived) is strictly protected by AI.` }
@@ -787,10 +789,16 @@ function NegotiationModal({ listing, qty, onClose, onAddToCart }: { listing: Pro
   const [agreedPrice, setAgreedPrice] = useState<number | null>(null);
 
   const handleOffer = async () => {
-    const numOffer = parseInt(offerPrice);
-    if (isNaN(numOffer) || numOffer <= 0) return;
+    // Extract the first sequence of numbers from the text (useful for voice input)
+    const match = offerPrice.match(/\d+/);
+    const numOffer = match ? parseInt(match[0]) : NaN;
+    
+    if (isNaN(numOffer) || numOffer <= 0) {
+      alert("Please enter or say a valid number for your offer.");
+      return;
+    }
 
-    const newRounds: NegotiationRoundMsg[] = [...rounds, { role: "buyer", message: `I offer ₹${numOffer}/kg.`, price: numOffer }];
+    const newRounds: NegotiationRoundMsg[] = [...rounds, { role: "buyer", message: offerPrice, price: numOffer }];
     setRounds(newRounds);
     setOfferPrice("");
     setIsNegotiating(true);
@@ -922,16 +930,26 @@ function NegotiationModal({ listing, qty, onClose, onAddToCart }: { listing: Pro
              </button>
           ) : (
             <div className="flex gap-2">
+              {supported && (
+                <button
+                  onClick={() => {
+                    startListening((text) => setOfferPrice((prev) => prev ? `${prev} ${text}` : text));
+                  }}
+                  className={`w-12 rounded-xl flex items-center justify-center transition-colors shrink-0 ${isListening ? 'bg-red-500 text-white animate-pulse' : 'bg-[var(--fill-secondary)] border border-[var(--separator)] text-[var(--text-secondary)] hover:text-black dark:hover:text-white'}`}
+                >
+                  <Mic size={20} />
+                </button>
+              )}
               <div className="relative flex-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] font-medium">₹</span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] font-medium">🗣️</span>
                 <input 
-                  type="number"
+                  type="text"
                   value={offerPrice}
                   onChange={(e) => setOfferPrice(e.target.value)}
-                  placeholder="Enter your offer per kg..."
+                  placeholder={isListening ? "Listening..." : "Say or type your offer..."}
                   onKeyDown={(e) => { if (e.key === 'Enter') handleOffer(); }}
                   disabled={rounds.length >= 10}
-                  className="w-full bg-[var(--fill-secondary)] border border-[var(--separator)] rounded-xl py-3 pl-8 pr-4 text-sm text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[#007AFF]/50 transition-all shadow-sm disabled:opacity-50"
+                  className="w-full bg-[var(--fill-secondary)] border border-[var(--separator)] rounded-xl py-3 pl-10 pr-4 text-sm text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[#007AFF]/50 transition-all shadow-sm disabled:opacity-50"
                 />
               </div>
               <button 
