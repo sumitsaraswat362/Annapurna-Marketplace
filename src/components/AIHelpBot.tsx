@@ -128,17 +128,19 @@ export default function AIHelpBot() {
 
           {/* Input */}
           <form onSubmit={handleSend} className="p-3 border-t border-[var(--separator)] bg-[var(--fill-secondary)] flex gap-2 items-center">
-            {supported && (
-              <button
-                type="button"
-                onClick={() => {
-                  startListening((text) => setInput((prev) => prev ? `${prev} ${text}` : text));
-                }}
-                className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors shrink-0 ${isListening ? 'bg-red-500 text-white animate-pulse' : 'bg-[var(--fill-tertiary)] text-[var(--text-secondary)] hover:text-black dark:hover:text-white'}`}
-              >
-                <Mic size={18} />
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => {
+                if (!supported) {
+                  alert("Voice input requires Google Chrome.");
+                  return;
+                }
+                startListening((text) => setInput((prev) => prev ? `${prev} ${text}` : text));
+              }}
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors shrink-0 ${isListening ? 'bg-red-500 text-white animate-pulse' : 'bg-[var(--fill-tertiary)] text-[var(--text-secondary)] hover:text-black dark:hover:text-white'}`}
+            >
+              <Mic size={18} />
+            </button>
             <input
               type="text"
               value={input}

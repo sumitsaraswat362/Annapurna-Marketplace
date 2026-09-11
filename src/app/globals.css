@@ -973,3 +973,27 @@ html.dark .badge-info {
   background: rgba(10, 132, 255, 0.15);
   color: #0A84FF;
 }
+
+/* Google Translate Overrides */
+body {
+  top: 0 !important;
+}
+.skiptranslate iframe {
+  display: none !important;
+}
+#google_translate_element select {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--separator);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+}
+.goog-te-gadget {
+  color: transparent !important;
+}
+.goog-te-gadget span {
+  display: none !important;
+}

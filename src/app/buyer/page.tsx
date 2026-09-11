@@ -930,16 +930,18 @@ function NegotiationModal({ listing, qty, onClose, onAddToCart }: { listing: Pro
              </button>
           ) : (
             <div className="flex gap-2">
-              {supported && (
-                <button
-                  onClick={() => {
-                    startListening((text) => setOfferPrice((prev) => prev ? `${prev} ${text}` : text));
-                  }}
-                  className={`w-12 rounded-xl flex items-center justify-center transition-colors shrink-0 ${isListening ? 'bg-red-500 text-white animate-pulse' : 'bg-[var(--fill-secondary)] border border-[var(--separator)] text-[var(--text-secondary)] hover:text-black dark:hover:text-white'}`}
-                >
-                  <Mic size={20} />
-                </button>
-              )}
+              <button
+                onClick={() => {
+                  if (!supported) {
+                    alert("Voice input requires Google Chrome.");
+                    return;
+                  }
+                  startListening((text) => setOfferPrice((prev) => prev ? `${prev} ${text}` : text));
+                }}
+                className={`w-12 rounded-xl flex items-center justify-center transition-colors shrink-0 ${isListening ? 'bg-red-500 text-white animate-pulse' : 'bg-[var(--fill-secondary)] border border-[var(--separator)] text-[var(--text-secondary)] hover:text-black dark:hover:text-white'}`}
+              >
+                <Mic size={20} />
+              </button>
               <div className="relative flex-1">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] font-medium">🗣️</span>
                 <input 
