@@ -45,8 +45,8 @@ export function Hero() {
           background: "radial-gradient(circle 600px at var(--mouse-x) var(--mouse-y), rgba(52, 199, 89, 0.15), transparent 80%)",
         }}
         animate={{
-          "--mouse-x": \`\${(mousePosition.x / 20 + 0.5) * 100}%\`,
-          "--mouse-y": \`\${(mousePosition.y / 20 + 0.5) * 100}%\`,
+          "--mouse-x": `${(mousePosition.x / 20 + 0.5) * 100}%`,
+          "--mouse-y": `${(mousePosition.y / 20 + 0.5) * 100}%`,
         } as any}
       />
 
