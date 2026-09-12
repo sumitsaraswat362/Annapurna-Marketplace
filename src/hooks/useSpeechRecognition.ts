@@ -1,59 +1,76 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
 
 export function useSpeechRecognition() {
   const [isListening, setIsListening] = useState(false);
-  const [supported, setSupported] = useState(true);
-
-  let recognition: any = null;
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const SpeechRecognition = window.SpeechRecognition || (window as any).webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        setSupported(false);
-      }
-    }
-  }, []);
+  const [supported, setSupported] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return !!(window.SpeechRecognition || (window as any).webkitSpeechRecognition);
+  });
+  const recognitionRef = useRef<any>(null);
 
   const startListening = useCallback((onResult: (text: string) => void) => {
     if (typeof window === "undefined") return;
     const SpeechRecognition = window.SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (!SpeechRecognition) return;
+    if (!SpeechRecognition) {
+      setSupported(false);
+      return;
+    }
 
-    recognition = new SpeechRecognition();
+    // Stop any existing session
+    if (recognitionRef.current) {
+      try { recognitionRef.current.stop(); } catch {}
+    }
+
+    const recognition = new SpeechRecognition();
+    recognitionRef.current = recognition;
     recognition.continuous = false;
-    recognition.interimResults = false;
-    recognition.lang = "hi-IN"; // Defaulting to Hindi for rural context, but it auto-detects quite well
+    recognition.interimResults = true;
+    recognition.lang = "en-IN";
+    recognition.maxAlternatives = 1;
+
+    let finalTranscript = "";
 
     recognition.onstart = () => setIsListening(true);
-    
+
     recognition.onresult = (event: any) => {
-      const transcript = event.results[0][0].transcript;
-      onResult(transcript);
-      setIsListening(false);
+      let interim = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalTranscript += transcript;
+        } else {
+          interim += transcript;
+        }
+      }
+      // Send interim results so user sees text appearing in real-time
+      if (interim) onResult(interim);
+      if (finalTranscript) onResult(finalTranscript);
     };
 
     recognition.onerror = (event: any) => {
-      console.error("Speech recognition error", event.error);
+      console.error("Speech recognition error:", event.error);
       setIsListening(false);
+      recognitionRef.current = null;
     };
 
     recognition.onend = () => {
       setIsListening(false);
+      recognitionRef.current = null;
     };
 
     try {
       recognition.start();
     } catch (e) {
-      console.error(e);
+      console.error("Failed to start speech recognition:", e);
       setIsListening(false);
     }
   }, []);
 
   const stopListening = useCallback(() => {
-    if (recognition) {
-      recognition.stop();
+    if (recognitionRef.current) {
+      try { recognitionRef.current.stop(); } catch {}
+      recognitionRef.current = null;
       setIsListening(false);
     }
   }, []);

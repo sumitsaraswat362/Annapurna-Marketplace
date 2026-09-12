@@ -641,17 +641,19 @@ export const DEMO_ORDERS: Order[] = [
 
 export const DEMO_MANDI_PRICES: MandiPrice[] = [
   { commodity: "Tomato", variety: "Hybrid", market: "Pune", district: "Pune", state: "Maharashtra", minPrice: 1800, maxPrice: 3200, modalPrice: 2500, pricePerKg: 25, arrivalDate: new Date().toISOString().split("T")[0], source: "mock" },
-  { commodity: "Onion", variety: "Red", market: "Lasalgaon", district: "Nashik", state: "Maharashtra", minPrice: 800, maxPrice: 1500, modalPrice: 1200, pricePerKg: 12, arrivalDate: new Date().toISOString().split("T")[0], source: "mock" },
+  { commodity: "Onion", variety: "Red", market: "Lasalgaon", district: "Nashik", state: "Maharashtra", minPrice: 2000, maxPrice: 4500, modalPrice: 3000, pricePerKg: 30, arrivalDate: new Date().toISOString().split("T")[0], source: "mock" },
   { commodity: "Grape", variety: "Thompson Seedless", market: "Nashik", district: "Nashik", state: "Maharashtra", minPrice: 4000, maxPrice: 6500, modalPrice: 5000, pricePerKg: 50, arrivalDate: new Date().toISOString().split("T")[0], source: "mock" },
   { commodity: "Orange", variety: "Nagpur Santra", market: "Nagpur", district: "Nagpur", state: "Maharashtra", minPrice: 2500, maxPrice: 3800, modalPrice: 3000, pricePerKg: 30, arrivalDate: new Date().toISOString().split("T")[0], source: "mock" },
-  { commodity: "Wheat", variety: "Sharbati", market: "Indore", district: "Indore", state: "Madhya Pradesh", minPrice: 2100, maxPrice: 2400, modalPrice: 2200, pricePerKg: 22, arrivalDate: new Date().toISOString().split("T")[0], source: "mock" },
-  { commodity: "Banana", variety: "Robusta", market: "Coimbatore", district: "Coimbatore", state: "Tamil Nadu", minPrice: 1200, maxPrice: 2000, modalPrice: 1600, pricePerKg: 16, arrivalDate: new Date().toISOString().split("T")[0], source: "mock" },
+  { commodity: "Wheat", variety: "Sharbati", market: "Indore", district: "Indore", state: "Madhya Pradesh", minPrice: 2500, maxPrice: 3200, modalPrice: 2800, pricePerKg: 28, arrivalDate: new Date().toISOString().split("T")[0], source: "mock" },
+  { commodity: "Banana", variety: "Robusta", market: "Coimbatore", district: "Coimbatore", state: "Tamil Nadu", minPrice: 2500, maxPrice: 4000, modalPrice: 3500, pricePerKg: 35, arrivalDate: new Date().toISOString().split("T")[0], source: "mock" },
   { commodity: "Capsicum", variety: "Green", market: "Pune", district: "Pune", state: "Maharashtra", minPrice: 3500, maxPrice: 5000, modalPrice: 4200, pricePerKg: 42, arrivalDate: new Date().toISOString().split("T")[0], source: "mock" },
   { commodity: "Turmeric", variety: "Salem Finger", market: "Erode", district: "Erode", state: "Tamil Nadu", minPrice: 8500, maxPrice: 11000, modalPrice: 9500, pricePerKg: 95, arrivalDate: new Date().toISOString().split("T")[0], source: "mock" },
   { commodity: "Rice", variety: "Basmati 1121", market: "Karnal", district: "Karnal", state: "Haryana", minPrice: 3800, maxPrice: 4500, modalPrice: 4200, pricePerKg: 42, arrivalDate: new Date().toISOString().split("T")[0], source: "mock" },
-  { commodity: "Potato", variety: "Jyoti", market: "Agra", district: "Agra", state: "Uttar Pradesh", minPrice: 900, maxPrice: 1400, modalPrice: 1100, pricePerKg: 11, arrivalDate: new Date().toISOString().split("T")[0], source: "mock" },
+  { commodity: "Potato", variety: "Jyoti", market: "Agra", district: "Agra", state: "Uttar Pradesh", minPrice: 1800, maxPrice: 3200, modalPrice: 2500, pricePerKg: 25, arrivalDate: new Date().toISOString().split("T")[0], source: "mock" },
   { commodity: "Chilli", variety: "Guntur Sannam", market: "Guntur", district: "Guntur", state: "Andhra Pradesh", minPrice: 9000, maxPrice: 14000, modalPrice: 11000, pricePerKg: 110, arrivalDate: new Date().toISOString().split("T")[0], source: "mock" },
   { commodity: "Mango", variety: "Alphonso", market: "Ratnagiri", district: "Ratnagiri", state: "Maharashtra", minPrice: 6000, maxPrice: 12000, modalPrice: 8000, pricePerKg: 80, arrivalDate: new Date().toISOString().split("T")[0], source: "mock" },
+  { commodity: "Apple", variety: "Royal Delicious", market: "Shimla", district: "Shimla", state: "Himachal Pradesh", minPrice: 8000, maxPrice: 15000, modalPrice: 12000, pricePerKg: 120, arrivalDate: new Date().toISOString().split("T")[0], source: "mock" },
+  { commodity: "Apple", variety: "Kinnaur", market: "Kullu", district: "Kullu", state: "Himachal Pradesh", minPrice: 10000, maxPrice: 18000, modalPrice: 14000, pricePerKg: 140, arrivalDate: new Date().toISOString().split("T")[0], source: "mock" },
 ];
 
 // --- Demand Forecasts ---

@@ -36,8 +36,12 @@ import {
   Leaf,
   ShieldCheck,
   AlertCircle,
-  Trash2
+  Trash2,
+  Shield,
+  Phone,
+  MessageCircle
 } from "lucide-react";
+import { AadhaarVerification } from "@/components/AadhaarVerification";
 import {
   AreaChart,
   Area,
@@ -1053,6 +1057,8 @@ export default function FarmerDashboard() {
   const [activeTab, setActiveTab] = useState<TabId>("overview");
   const [showListingModal, setShowListingModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showAadhaar, setShowAadhaar] = useState(false);
+  const [isAadhaarVerified, setIsAadhaarVerified] = useState(false);
 
   const farmerId = user?.id || "farmer-001";
   const myOrders = orders.filter((o) => o.farmerId === farmerId);
@@ -1119,9 +1125,23 @@ export default function FarmerDashboard() {
               <Menu className="w-5 h-5" />
             </button>
             <div>
-              <h2 className="text-2xl font-bold">
-                Welcome, {user?.name?.split(" ")[0] || "Farmer"} 🌾
-              </h2>
+              <div className="flex items-center gap-3">
+                <h2 className="text-2xl font-bold">
+                  Welcome, {user?.name?.split(" ")[0] || "Farmer"} 🌾
+                </h2>
+                {!isAadhaarVerified ? (
+                  <button
+                    onClick={() => setShowAadhaar(true)}
+                    className="px-4 py-2 rounded-xl bg-[#FF6B00]/10 border border-[#FF6B00]/30 text-[#FF6B00] text-xs font-bold hover:bg-[#FF6B00]/20 transition-colors flex items-center gap-1.5"
+                  >
+                    <Shield className="w-3.5 h-3.5" /> Verify Aadhaar
+                  </button>
+                ) : (
+                  <span className="px-3 py-1.5 rounded-full bg-[#34C759]/10 text-[#34C759] text-xs font-bold flex items-center gap-1.5 border border-[#34C759]/20">
+                    <Shield className="w-3.5 h-3.5" /> Aadhaar Verified ✓
+                  </span>
+                )}
+              </div>
               <p className="text-[var(--text-secondary)] text-sm flex items-center gap-1 mt-0.5">
                 <MapPin className="w-3.5 h-3.5" />
                 {user?.village || "Demo Village"}, {user?.district || "Nashik"}
@@ -1185,6 +1205,12 @@ export default function FarmerDashboard() {
       <AnimatePresence>
         {showListingModal && <ListingModal onClose={() => setShowListingModal(false)} />}
       </AnimatePresence>
+      <AadhaarVerification
+        isOpen={showAadhaar}
+        onClose={() => setShowAadhaar(false)}
+        onVerified={() => setIsAadhaarVerified(true)}
+        userName={user?.name || "Farmer"}
+      />
     </div>
   );
 }

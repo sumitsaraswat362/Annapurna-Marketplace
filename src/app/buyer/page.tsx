@@ -9,8 +9,10 @@ import {
   Search, MapPin, Leaf, Clock, ShoppingCart, 
   TrendingDown, CheckCircle2, ChevronDown, Filter, 
   Sparkles, Plus, Minus, Handshake, CreditCard,
-  MessageSquare, X, ArrowRight, LogOut, ClipboardList, Package, Truck, Mic
+  MessageSquare, X, ArrowRight, LogOut, ClipboardList, Package, Truck, Mic,
+  Phone, Shield
 } from "lucide-react";
+import { AadhaarVerification } from "@/components/AadhaarVerification";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 
 const CATEGORIES = ["All", "Vegetables", "Fruits", "Grains", "Pulses", "Spices", "Dairy", "Organic"];
@@ -42,6 +44,8 @@ export default function BuyerMarketplace() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [negotiateListing, setNegotiateListing] = useState<{ listing: ProduceListing, qty: number } | null>(null);
+  const [showAadhaar, setShowAadhaar] = useState(false);
+  const [isAadhaarVerified, setIsAadhaarVerified] = useState(false);
 
   // Smart AI Search Handler
   const handleSmartSearch = async () => {
@@ -172,8 +176,22 @@ export default function BuyerMarketplace() {
                 </span>
               )}
             </button>
-            <div className="h-11 px-3 rounded-xl bg-gradient-to-br from-[#34C759]/20 to-[#5AC8FA]/20 border border-[var(--separator)] flex items-center justify-center shadow-sm gap-2">
-              <span className="font-bold text-[#248A3D]">{user?.name || "Buyer"}</span>
+            <div className="h-11 flex items-center gap-2">
+              {!isAadhaarVerified ? (
+                <button
+                  onClick={() => setShowAadhaar(true)}
+                  className="h-full px-3 rounded-xl bg-[#FF6B00]/10 border border-[#FF6B00]/30 text-[#FF6B00] text-xs font-bold hover:bg-[#FF6B00]/20 transition-colors flex items-center gap-1.5"
+                >
+                  <Shield className="w-4 h-4" /> <span className="hidden md:inline">Verify Aadhaar</span>
+                </button>
+              ) : (
+                <div className="h-full px-3 rounded-xl bg-[#34C759]/10 border border-[#34C759]/20 text-[#34C759] text-xs font-bold flex items-center gap-1.5">
+                  <Shield className="w-4 h-4" /> <span className="hidden md:inline">Verified</span>
+                </div>
+              )}
+              <div className="h-full px-3 rounded-xl bg-gradient-to-br from-[#34C759]/20 to-[#5AC8FA]/20 border border-[var(--separator)] flex items-center justify-center shadow-sm gap-2">
+                <span className="font-bold text-[#248A3D]">{user?.name || "Buyer"}</span>
+              </div>
             </div>
             <button
               onClick={logout}
@@ -408,6 +426,12 @@ export default function BuyerMarketplace() {
           />
         )}
       </AnimatePresence>
+      <AadhaarVerification
+        isOpen={showAadhaar}
+        onClose={() => setShowAadhaar(false)}
+        onVerified={() => setIsAadhaarVerified(true)}
+        userName={user?.name || "Buyer"}
+      />
     </div>
   );
 }
@@ -925,6 +949,27 @@ function NegotiationModal({ listing, qty, onClose, onAddToCart }: { listing: Pro
               </div>
             </div>
           )}
+        </div>
+
+        {/* Direct Contact Options */}
+        <div className="mx-6 mb-4 p-3 rounded-xl bg-[var(--fill-secondary)] border border-[var(--separator)]">
+          <p className="text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-wider mb-2">Not satisfied? Contact farmer directly</p>
+          <div className="flex gap-2">
+            <a
+              href={`https://wa.me/${(listing.farmerPhone || '919876543210').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hi ${listing.farmerName}, I'm interested in your ${listing.cropType}. Can we discuss the price?`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-[#25D366]/10 border border-[#25D366]/30 text-[#25D366] text-xs font-bold hover:bg-[#25D366]/20 transition-colors"
+            >
+              <MessageCircle className="w-3.5 h-3.5" /> WhatsApp
+            </a>
+            <a
+              href={`tel:${listing.farmerPhone || '+919876543210'}`}
+              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-[#007AFF]/10 border border-[#007AFF]/30 text-[#007AFF] text-xs font-bold hover:bg-[#007AFF]/20 transition-colors"
+            >
+              <Phone className="w-3.5 h-3.5" /> Call Farmer
+            </a>
+          </div>
         </div>
 
         {/* Input Area */}

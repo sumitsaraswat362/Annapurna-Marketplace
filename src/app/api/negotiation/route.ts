@@ -27,9 +27,11 @@ export async function POST(req: Request) {
       organicCertified,
     } = body;
 
-    if (!askingPricePerKg || !buyerOfferPerKg) {
-      return NextResponse.json({ error: "Asking price and buyer offer are required" }, { status: 400 });
+    if (!buyerOfferPerKg || buyerOfferPerKg <= 0) {
+      return NextResponse.json({ error: "Buyer offer price is required and must be positive" }, { status: 400 });
     }
+    // Use sensible defaults if asking price is missing
+    const effectiveAskingPrice = askingPricePerKg || buyerOfferPerKg * 1.5;
 
     // --- Rate limiting & bid validation ---
     const buyerId = body.buyerId || buyerName || 'anonymous';
@@ -81,7 +83,7 @@ export async function POST(req: Request) {
         listingId,
         cropType,
         buyerOfferPerKg,
-        askingPricePerKg,
+        askingPricePerKg: effectiveAskingPrice,
         roundNumber: roundNumber || 1,
         timestamp: Date.now(),
       });
@@ -117,7 +119,7 @@ Return ONLY valid JSON with this exact schema:
 Crop: ${organicCertified ? 'Organic ' : ''}${cropType}${variety ? ` (${variety})` : ''}
 Quality Grade: ${qualityGrade || 'Standard'}
 Quantity: ${quantityKg || 'N/A'} kg
-Farmer's Asking Price: ₹${askingPricePerKg}/kg
+Farmer's Asking Price: ₹${effectiveAskingPrice}/kg
 Effective Floor (absolute minimum): ₹${effectiveFloor}/kg
 Current Mandi Rate: ₹${mandiPricePerKg || 'N/A'}/kg
 Government MSP: ${mspPerKg ? '₹' + mspPerKg + '/kg' : 'N/A'}
@@ -125,7 +127,7 @@ Government MSP: ${mspPerKg ? '₹' + mspPerKg + '/kg' : 'N/A'}
 Buyer "${buyerName || 'Buyer'}" offers: ₹${buyerOfferPerKg}/kg
 
 Make your negotiation decision. Remember:
-- If offer >= ${Math.round(askingPricePerKg * 0.90)}, you should ACCEPT (it's within 10% of asking)
+- If offer >= ${Math.round(effectiveAskingPrice * 0.90)}, you should ACCEPT (it's within 10% of asking)
 - If offer < ${effectiveFloor}, you MUST REJECT
 - Otherwise, COUNTER with a fair price between offer and asking
 - This is round ${round} of max 10. ${round >= 7 ? 'We are in late rounds — try to close the deal.' : ''}`;
@@ -153,9 +155,9 @@ Make your negotiation decision. Remember:
 
       if (aiDecision.action === "counter") {
         // Ensure counter price is valid
-        let cp = aiDecision.counterPrice || Math.round((askingPricePerKg + buyerOfferPerKg) / 2);
+        let cp = aiDecision.counterPrice || Math.round((effectiveAskingPrice + buyerOfferPerKg) / 2);
         cp = Math.max(cp, effectiveFloor); // Never below floor
-        cp = Math.min(cp, askingPricePerKg); // Never above asking
+        cp = Math.min(cp, effectiveAskingPrice); // Never above asking
         aiDecision.counterPrice = cp;
       }
 
@@ -171,12 +173,12 @@ Make your negotiation decision. Remember:
       console.warn("AI negotiation failed, using rule-based fallback:", aiError);
 
       // Rule-based fallback only if AI is unavailable
-      const offerRatio = buyerOfferPerKg / askingPricePerKg;
+      const offerRatio = buyerOfferPerKg / effectiveAskingPrice;
       let action: "accept" | "counter" | "reject" = "counter";
-      let counterPrice = askingPricePerKg;
+      let counterPrice = effectiveAskingPrice;
       let reasoning = "";
 
-      if (buyerOfferPerKg >= askingPricePerKg * 0.90) {
+      if (buyerOfferPerKg >= effectiveAskingPrice * 0.90) {
         action = "accept";
         reasoning = `Your offer of ₹${buyerOfferPerKg}/kg is fair. Deal accepted! This ${organicCertified ? 'organic ' : ''}${cropType} will be reserved for you.`;
       } else if (buyerOfferPerKg < effectiveFloor) {
@@ -185,7 +187,7 @@ Make your negotiation decision. Remember:
       } else {
         // Progressive concession based on round
         const concessionRate = Math.min(0.5, 0.2 + (round * 0.05));
-        counterPrice = Math.round(askingPricePerKg - (askingPricePerKg - buyerOfferPerKg) * concessionRate);
+        counterPrice = Math.round(effectiveAskingPrice - (effectiveAskingPrice - buyerOfferPerKg) * concessionRate);
         counterPrice = Math.max(counterPrice, effectiveFloor);
         action = "counter";
         reasoning = `I appreciate your offer of ₹${buyerOfferPerKg}/kg. How about ₹${counterPrice}/kg? This is Grade ${qualityGrade || 'A'} ${cropType}, and the current mandi rate is ₹${mandiPricePerKg}/kg.`;
