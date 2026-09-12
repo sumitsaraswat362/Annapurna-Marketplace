@@ -78,6 +78,7 @@ Our platform is engineered to address every single pain point of the Indian agri
 * **Glassmorphism & Liquid UI:** State-of-the-art blurred glass panels and fluid gradients.
 * **Framer Motion Animations:** Smooth 60fps transitions, floating 3D widgets, and reactive hover states.
 * **Smart Dashboards:** Fully separated, dedicated high-performance dashboards for Farmers (Yields & Orders) and Buyers (Cart & Logistics).
+* **Dark & Light Mode Support:** Fully responsive theme toggling for personal preference. Dark mode is specifically optimized to reduce eye strain for users browsing at night.
 
 ---
 
