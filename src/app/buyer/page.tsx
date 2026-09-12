@@ -47,6 +47,17 @@ export default function BuyerMarketplace() {
   const [showAadhaar, setShowAadhaar] = useState(false);
   const [isAadhaarVerified, setIsAadhaarVerified] = useState(false);
 
+  useEffect(() => {
+    if (user?.id && localStorage.getItem(`aadhaar_verified_${user.id}`) === "true") {
+      setIsAadhaarVerified(true);
+    }
+  }, [user?.id]);
+
+  const handleAadhaarSuccess = () => {
+    setIsAadhaarVerified(true);
+    if (user?.id) localStorage.setItem(`aadhaar_verified_${user.id}`, "true");
+  };
+
   // Smart AI Search Handler
   const handleSmartSearch = async () => {
     if (!smartQuery.trim()) return;
@@ -429,7 +440,7 @@ export default function BuyerMarketplace() {
       <AadhaarVerification
         isOpen={showAadhaar}
         onClose={() => setShowAadhaar(false)}
-        onVerified={() => setIsAadhaarVerified(true)}
+        onVerified={handleAadhaarSuccess}
         userName={user?.name || "Buyer"}
       />
     </div>

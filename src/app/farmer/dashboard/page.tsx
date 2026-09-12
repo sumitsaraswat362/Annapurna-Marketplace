@@ -1060,6 +1060,17 @@ export default function FarmerDashboard() {
   const [showAadhaar, setShowAadhaar] = useState(false);
   const [isAadhaarVerified, setIsAadhaarVerified] = useState(false);
 
+  useEffect(() => {
+    if (user?.id && localStorage.getItem(`aadhaar_verified_${user.id}`) === "true") {
+      setIsAadhaarVerified(true);
+    }
+  }, [user?.id]);
+
+  const handleAadhaarSuccess = () => {
+    setIsAadhaarVerified(true);
+    if (user?.id) localStorage.setItem(`aadhaar_verified_${user.id}`, "true");
+  };
+
   const farmerId = user?.id || "farmer-001";
   const myOrders = orders.filter((o) => o.farmerId === farmerId);
   const myListings = listings.filter((l) => l.farmerId === farmerId);
@@ -1208,7 +1219,7 @@ export default function FarmerDashboard() {
       <AadhaarVerification
         isOpen={showAadhaar}
         onClose={() => setShowAadhaar(false)}
-        onVerified={() => setIsAadhaarVerified(true)}
+        onVerified={handleAadhaarSuccess}
         userName={user?.name || "Farmer"}
       />
     </div>
