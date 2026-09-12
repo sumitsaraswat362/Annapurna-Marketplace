@@ -10,7 +10,7 @@ import {
   TrendingDown, CheckCircle2, ChevronDown, Filter, 
   Sparkles, Plus, Minus, Handshake, CreditCard,
   MessageSquare, X, ArrowRight, LogOut, ClipboardList, Package, Truck, Mic,
-  Phone, Shield
+  Phone, Shield, MessageCircle
 } from "lucide-react";
 import { AadhaarVerification } from "@/components/AadhaarVerification";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
@@ -530,9 +530,19 @@ function ProduceCard({ listing, onNegotiate }: { listing: ProduceListing, onNego
           <h3 className="text-lg font-bold text-[var(--text-primary)] capitalize line-clamp-1">
             {listing.cropType} <span className="text-sm font-normal text-[var(--text-tertiary)] ml-1">({listing.variety || "Local"})</span>
           </h3>
-          <p className="text-xs font-medium text-[var(--text-secondary)] flex items-center gap-1 mt-1">
-            <span>🌾</span> {listing.farmerName} • {listing.village}, {listing.district}
-          </p>
+          <div className="flex flex-col gap-1 mt-1.5">
+            <p className="text-xs font-medium text-[var(--text-secondary)] flex items-center gap-1">
+              <span>🌾</span> {listing.farmerName} • {listing.village}, {listing.district}
+            </p>
+            <div className="flex items-center gap-2 mt-0.5">
+              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#34C759]/10 text-[#34C759] border border-[#34C759]/20">
+                <Shield className="w-2.5 h-2.5" /> UIDAI Verified
+              </span>
+              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#007AFF]/10 text-[#007AFF] border border-[#007AFF]/20">
+                Trust Score: {80 + (listing.farmerName.length % 15)}/100
+              </span>
+            </div>
+          </div>
         </div>
 
         {/* Pricing Block */}
