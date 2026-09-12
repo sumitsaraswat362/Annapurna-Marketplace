@@ -99,7 +99,7 @@ graph TD
 | **Tanay Agrawal** | Product Developer & Features Engineer |
 | **Vansh Thakur** | Backend Architecture & Cloud Infrastructure |
 | **Ayushi Katara** | UI/UX Design & Frontend Engineering |
-| **Tanmay Kaushal** | AI Integration & Machine Learning |
+| **Tanmay Kaushal** | AI Integration |
 | **Suraj Singh** | Database Architecture & Security |
 
 ---
