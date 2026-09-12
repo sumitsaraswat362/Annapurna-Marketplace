@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://www.sih.gov.in/img/logo.png" alt="SIH Logo" width="150" />
+  <img src="Screenshots/sih_logo.png" alt="SIH Logo" width="150" />
   <h1>🌾 Annapurna Marketplace 🌾</h1>
   <p><b>Smart India Hackathon 2026 Finalist Project (PSID 26033)</b></p>
   <p><i>Ministry of Consumer Affairs, Food & Public Distribution</i></p>
