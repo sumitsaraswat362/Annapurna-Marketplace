@@ -54,17 +54,12 @@ export function Hero() {
         
         {/* === HERO TEXT & CTA === */}
         <motion.div 
-          className="max-w-5xl mx-auto text-center mt-32 md:mt-48 relative z-20"
+          className="max-w-5xl mx-auto text-center mt-12 md:mt-24 relative z-20"
           style={{ y: textY, opacity: textOpacity }}
           initial={{ y: 40, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--fill-secondary)] border border-[var(--separator)] mb-6 shadow-sm backdrop-blur-md">
-            <span className="flex h-2 w-2 rounded-full bg-[#34C759] animate-pulse"></span>
-            <span className="text-xs font-bold tracking-wide text-[var(--text-secondary)] uppercase">SIH 2026 Finalist • Ministry of Consumer Affairs</span>
-          </div>
-
           <h1 className="text-6xl md:text-8xl font-extrabold tracking-tighter mb-6 text-[var(--text-primary)] leading-[1.1]">
             <span className="block">Direct from Farm.</span>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#34C759] to-[#007AFF] drop-shadow-sm">
@@ -91,7 +86,7 @@ export function Hero() {
 
         {/* === DEVICE MOCKUPS & FLOATING WIDGETS === */}
         <motion.div 
-          className="mt-16 md:mt-20 w-full max-w-[1400px] h-[400px] md:h-[600px] mx-auto flex justify-center relative" 
+          className="mt-16 md:mt-24 w-full max-w-[1400px] max-md:h-[380px] md:aspect-[21/9] mx-auto flex justify-center relative" 
           style={{ zIndex: 10, scale, transformOrigin: "top center" }}
         >
           {/* FLOATING WIDGET 1: Aadhaar Trust */}
@@ -148,23 +143,23 @@ export function Hero() {
             </div>
           </motion.div>
 
-          {/* DEVICES */}
+          {/* DEVICES - Using precise original classes for accurate grouping */}
           <motion.div 
-            className="absolute left-0 md:left-[2%] top-[5%] md:top-[15%] w-[100%] md:w-[80%] aspect-[16/9] z-10"
+            className="absolute left-0 md:left-0 top-[5%] md:top-[10%] w-[100%] md:w-[85%] aspect-[16/9] z-10"
             style={{ x: macX, opacity: macOpacity }}
           >
             <img src="/images/macbook_hardware.png" alt="MacBook Marketplace Dashboard" className="w-full h-full object-contain drop-shadow-2xl" />
           </motion.div>
 
           <motion.div 
-            className="absolute right-[5%] md:right-[5%] bottom-[5%] md:bottom-[10%] w-[60%] md:w-[50%] aspect-[4/3] z-20"
+            className="absolute right-[5%] md:right-[5%] bottom-[5%] md:bottom-[0%] w-[60%] md:w-[55%] aspect-[4/3] z-20"
             style={{ y: ipadY, opacity: ipadOpacity }}
           >
             <img src="/images/ipad_hardware.png" alt="iPad Marketplace Dashboard" className="w-full h-full object-contain drop-shadow-2xl" />
           </motion.div>
 
           <motion.div 
-            className="absolute right-[0%] md:right-[0%] bottom-[10%] md:bottom-[5%] w-[35%] md:w-[22%] aspect-[9/16] z-30"
+            className="absolute right-[0%] md:right-[0%] bottom-[10%] md:bottom-[0%] w-[35%] md:w-[25%] aspect-[9/16] z-30"
             style={{ x: iphoneX, opacity: iphoneOpacity }}
           >
             <img src="/images/iphone_hardware.png" alt="iPhone Direct Trade App" className="w-full h-full object-contain drop-shadow-2xl" />
