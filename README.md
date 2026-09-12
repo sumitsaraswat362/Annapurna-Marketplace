@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/cb/Smart_India_Hackathon_logo.png/800px-Smart_India_Hackathon_logo.png" alt="SIH Logo" width="150" />
+  <img src="https://www.sih.gov.in/img/logo.png" alt="SIH Logo" width="150" />
   <h1>🌾 Annapurna Marketplace 🌾</h1>
   <p><b>Smart India Hackathon 2026 Finalist Project (PSID 26033)</b></p>
   <p><i>Ministry of Consumer Affairs, Food & Public Distribution</i></p>
@@ -20,12 +20,12 @@
 ## 📸 Platform Gallery
 
 <p align="center">
-  <img src="Screenshots/1_hero.png" alt="Annapurna Landing Page" width="100%" />
+  <img src="Screenshots/Hero.png" alt="Annapurna Landing Page" width="100%" />
 </p>
 
-| Farmer Dashboard | AI Negotiation & Fallback |
+| 3PL Logistics Tracking | AI Negotiation & Fallback |
 |:---:|:---:|
-| <img src="Screenshots/2_farmer_dashboard.png" width="100%" /> | <img src="Screenshots/7_ai_negotiation.png" width="100%" /> |
+| <img src="Screenshots/12_tracking.png" width="100%" /> | <img src="Screenshots/7_ai_negotiation.png" width="100%" /> |
 
 | UIDAI Aadhaar Trust | Live Marketplace |
 |:---:|:---:|
