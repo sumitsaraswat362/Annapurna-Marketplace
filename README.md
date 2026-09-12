@@ -12,6 +12,7 @@
     <a href="https://cloud.google.com/"><img src="https://img.shields.io/badge/Google_Cloud-Run-4285F4?logo=google-cloud" alt="Google Cloud" /></a>
     <a href="https://deepmind.google/technologies/gemini/"><img src="https://img.shields.io/badge/AI-Gemini_2.5_Flash-FF6B00?logo=google" alt="Gemini 2.5 Flash" /></a>
     <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind-CSS_4-38B2AC?logo=tailwind-css" alt="Tailwind" /></a>
+    <a href="https://framer.com/motion/"><img src="https://img.shields.io/badge/Framer_Motion-UI-blue?logo=framer" alt="Framer Motion" /></a>
   </p>
 </div>
 
@@ -41,39 +42,51 @@ Farmers in India lose **60-75%** of their harvest value to an extensive chain of
 
 ---
 
-## ✨ Cutting-Edge Features & V2 Upgrades
+## 🌟 Comprehensive Feature Set (Why this is impossible to beat)
 
-### 1. 🛡️ Trust & Identity (Aadhaar Engine)
-* **UIDAI Sandbox Verification:** Farmers and buyers verify their identity using a 12-digit Aadhaar flow + OTP.
-* **Reputation Engine:** Fully integrated 0-100 Trust Score based on Aadhaar status, transaction history, and fulfillment rates.
-* **Badges:** Visual "UIDAI Verified ✓" and colored Trust Scores displayed on all marketplace listings.
+Our platform is engineered to address every single pain point of the Indian agricultural supply chain. 
 
-### 2. 🤖 Zero-Fail AI Negotiation
-* **Gemini 2.5 Flash Autonomous Agent:** Acts on behalf of the farmer to negotiate with buyers, protecting the farmer's MSP and mandi price floor.
-* **3-Layer Fallback System:** Complete immunity to API rate limits. If Gemini 2.5 is rate-limited, it falls back to Gemini 1.5, and if that fails, it instantly switches to a local deterministic math-based negotiation engine. No "Service Unavailable" errors ever!
-* **Speech-to-Text Integration:** Native Web Speech API integration allows rural users to dictate their prices and queries in real-time.
+### 1. 🤖 Next-Gen AI Agent & Negotiation Engine
+* **Autonomous Farmer Representation:** Gemini 2.5 Flash negotiates in real-time with buyers *on behalf* of the farmer.
+* **MSP & Mandi Price Floor Protection:** The AI strictly rejects any bids that fall below the government Minimum Support Price (MSP) or local Mandi baseline.
+* **Zero-Fail 3-Layer Fallback Architecture:** Complete immunity to API rate limits. 
+  * *Layer 1:* Gemini 2.5 Flash (Advanced Reasoning)
+  * *Layer 2:* Gemini 1.5 Flash (High-Speed Fallback)
+  * *Layer 3:* Deterministic Local Math Engine (Triggers instantly if offline or rate-limited). **No "Service Unavailable" errors ever!**
 
-### 3. 📈 Real-time Market Intelligence
-* **Live Mandi Prices:** Fetches realistic, real-time commodity rates (e.g., Apples at ₹120-140/kg, Onions at ₹30/kg).
-* **AI Demand Forecasting:** Predicts future crop demands based on regional data, advising farmers on optimal listing times.
-* **Suspicious Pricing Blocks:** Server-side logic prevents buyers from submitting abnormally low bids.
+### 2. 🛡️ Identity, Trust, & Reputation
+* **UIDAI Aadhaar Sandbox Integration:** Simulated 12-digit Aadhaar + OTP verification flow for onboarding farmers and buyers.
+* **Dynamic Trust Score (0-100):** A sophisticated algorithm calculates real-time trust scores based on Aadhaar verification, transaction history, and fulfillment rates.
+* **Visual Trust Badges:** Prominent "UIDAI Verified ✓" and colored Trust Score badges rendered on all marketplace produce cards.
 
-### 4. 🚚 3PL Logistics & Direct Contact
-* **Integrated Fleet Tracking:** Automated tracking ID generation simulating real 3PL (Third Party Logistics) dispatch, ETA, driver phone, and vehicle data.
-* **Direct Farmer Contact:** If AI negotiation stalls, buyers can instantly click to **WhatsApp** or **Call** the farmer using dynamically injected real phone numbers.
+### 3. 🚚 3PL Logistics Auto-Dispatch
+* **Integrated Fleet Tracking Simulator:** The moment a deal is struck, the backend auto-generates 3PL (Third Party Logistics) dispatch data.
+* **Live UI Tracking:** Buyers and Farmers see real-time mock tracking info including *Driver Name, Vehicle Plate, ETA, and Live Route Maps*.
+* **Harvest Freshness Timer:** Automatically tracks the exact hours/minutes since the crop was harvested and displays it dynamically to the buyer (e.g., "Harvested 2h 15m ago").
 
-### 5. 🌐 Accessibility
-* **Google Translate Widget:** Cleanly integrated multilingual support for 12+ Indian regional languages, positioned seamlessly on top of the UI.
-* **Offline-Ready:** Graceful degradation of features if the user loses high-speed internet.
+### 4. 📈 Real-Time Market Intelligence
+* **Govt Mandi API Integration:** Fetches realistic, real-time commodity rates natively linked to `data.gov.in` logic (e.g., Apples at ₹120-140/kg, Onions at ₹30/kg).
+* **AI Demand Forecasting:** Predicts future crop demands by analyzing regional market trends, advising farmers on optimal listing times to maximize profit.
+* **Buyer Savings Calculator:** Shows buyers exactly how much they are saving per kg compared to inflated retail prices, gamifying the purchase.
+
+### 5. 🌐 Hyper-Accessibility for Rural India
+* **Omnichannel Contact:** If AI negotiation stalls, buyers can instantly transition to **WhatsApp** or **Direct Phone Call** using dynamically injected real farmer phone numbers.
+* **Native Speech-to-Text (Voice UI):** Built-in Web Speech API integration. Illiterate or typing-averse farmers can simply dictate their prices and queries into their phone microphone.
+* **Google Translate Overlap:** A floating 1-click translation widget offering support for 12+ Indian regional languages seamlessly overlaying the UI.
+
+### 6. 💎 Premium UI/UX Engineering
+* **Glassmorphism & Liquid UI:** State-of-the-art blurred glass panels and fluid gradients.
+* **Framer Motion Animations:** Smooth 60fps transitions, floating 3D widgets, and reactive hover states.
+* **Smart Dashboards:** Fully separated, dedicated high-performance dashboards for Farmers (Yields & Orders) and Buyers (Cart & Logistics).
 
 ---
 
-## ⚙️ Cloud Architecture
+## ⚙️ Cloud Architecture & Security
 
 ```mermaid
 graph TD
     Client[Web/Mobile Client] --> CDN[Cloud Run / Edge]
-    CDN --> NextJS[Next.js App Router]
+    CDN --> NextJS[Next.js 15 App Router]
     
     NextJS --> |Trade & State| Firestore[(Cloud Firestore)]
     NextJS --> |Live Rates| MandiAPI[data.gov.in API]
@@ -89,6 +102,11 @@ graph TD
     class NextJS next;
 ```
 
+**Security Highlights:**
+- **JWT HTTP-Only Cookies:** Guards against XSS for all authenticated routes.
+- **Suspicious Pricing Blocks:** Server-side logic automatically rejects lowball API spam.
+- **Rate Limiting:** IP-based tracking on negotiation routes to prevent backend flooding.
+
 ---
 
 ## 👥 Team Annapurna
@@ -99,7 +117,7 @@ graph TD
 | **Tanay Agrawal** | Product Developer & Features Engineer |
 | **Vansh Thakur** | Backend Architecture & Cloud Infrastructure |
 | **Ayushi Katara** | UI/UX Design & Frontend Engineering |
-| **Tanmay Kaushal** | AI Integration |
+| **Tanmay Kaushal** | AI Integration & Machine Learning |
 | **Suraj Singh** | Database Architecture & Security |
 
 ---
